@@ -7,6 +7,7 @@ import { BurgerConstructor } from '../../components';
 import { Preloader } from '../../components/ui';
 import { FC } from 'react';
 import { selectIngredientsLoading } from '../../services/selectors';
+import { clearOrder } from '../../services/slices/orderSlice';
 
 export const ConstructorPage: FC = () => {
   /** TODO: взять переменную из стора */
@@ -15,6 +16,12 @@ export const ConstructorPage: FC = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+  }, [dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearOrder());
+    };
   }, [dispatch]);
 
   return (

@@ -35,6 +35,7 @@ const App = () => {
   const background = location.state?.background;
   const ingredients = useSelector(selectIngredients);
   const ingredientsLoading = useSelector(selectIngredientsLoading);
+  const orderNumber = location.pathname.split('/').pop();
 
   const handleModalClose = () => {
     navigate(-1);
@@ -135,7 +136,10 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='Детали заказа' onClose={handleModalClose}>
+              <Modal
+                title={`#${orderNumber?.padStart(6, '0')}`}
+                onClose={handleModalClose}
+              >
                 <OrderInfo />
               </Modal>
             }
@@ -143,7 +147,7 @@ const App = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title='Детали заказа' onClose={handleModalClose}>
+              <Modal title={''} onClose={handleModalClose}>
                 <OrderInfo />
               </Modal>
             }

@@ -1,4 +1,4 @@
-import { TEST_URL } from '../support/constants';
+import { testUrl, modalSelector, bunName } from '../support/constants';
 
 describe('Burger Conctructor', () => {
   beforeEach(() => {
@@ -11,7 +11,7 @@ describe('Burger Conctructor', () => {
       fixture: 'ingredients.json'
     }).as('getIngredients');
 
-    cy.visit(TEST_URL, {
+    cy.visit(testUrl, {
       onBeforeLoad(win) {
       }
     });
@@ -26,16 +26,16 @@ describe('Burger Conctructor', () => {
 
   describe('Модальное окно ингредиента', () => {
     it('открытие и закрытие модального окна ингредиента', () => {
-      cy.contains('Краторная булка N-200i').click();
-      cy.get('[data-testid="modal"]').should('be.visible');
+      cy.contains(bunName).click();
+      cy.get(modalSelector).should('be.visible');
       cy.get('[data-testid="modal-close"]').click();
-      cy.get('[data-testid="modal"]').should('not.exist');
+      cy.get(modalSelector).should('not.exist');
     });
 
     it('отображение правильного ингредиента в модальном окне', () => {
-      cy.contains('Краторная булка N-200i').click();
-      cy.get('[data-testid="modal"]')
-        .should('contain.text', 'Краторная булка N-200i')
+      cy.contains(bunName).click();
+      cy.get(modalSelector)
+        .should('contain.text', bunName)
         .should('contain.text', '420') // калории
         .should('contain.text', '80')  // белки
         .should('contain.text', '53'); // углеводы
@@ -44,14 +44,14 @@ describe('Burger Conctructor', () => {
 
   describe('Добавление ингредиентов в конструктор', () => {
     it('добавление булки в конструктор', () => {
-      cy.addIngredient('Краторная булка N-200i');
+      cy.addIngredient(bunName);
       cy.get('[data-testid="constructor-bun-top"]')
-        .should('contain.text', 'Краторная булка N-200i')
+        .should('contain.text', bunName)
         .should('not.contain.text', 'Выберите булки');
     });
 
     it('добавление начинки в конструктор', () => {
-      cy.addIngredient('Краторная булка N-200i');
+      cy.addIngredient(bunName);
       cy.addIngredient('Биокотлета из марсианской Магнолии');
       cy.get('[data-testid="constructor-ingredients"]')
         .should('contain.text', 'Биокотлета')
@@ -62,7 +62,7 @@ describe('Burger Conctructor', () => {
   describe('Оформление заказа', () => {
     it('неавторизованный пользователь перенаправляется на /login при попытке заказа', () => {
       // Собираем бургер
-      cy.addIngredient('Краторная булка N-200i');
+      cy.addIngredient(bunName);
       cy.addIngredient('Биокотлета из марсианской Магнолии');
       cy.addIngredient('Соус Spicy-X');
 
@@ -82,7 +82,7 @@ describe('Burger Conctructor', () => {
       });
 
       // Собираем бургер
-      cy.addIngredient('Краторная булка N-200i');
+      cy.addIngredient(bunName);
       cy.addIngredient('Биокотлета из марсианской Магнолии');
       cy.addIngredient('Соус Spicy-X');
 
@@ -97,14 +97,14 @@ describe('Burger Conctructor', () => {
       cy.get('[data-testid="order-button"]').click();
       cy.wait('@createOrder');
 
-      cy.get('[data-testid="modal"]').should('be.visible');
-      cy.get('[data-testid="modal"]').contains('12345');
+      cy.get(modalSelector).should('be.visible');
+      cy.get(modalSelector).contains('12345');
       cy.contains('идентификатор заказа').should('be.visible');
       cy.contains('Ваш заказ начали готовить').should('be.visible');
 
       // Закрываем модалку
       cy.get('[data-testid="modal-close"]').click();
-      cy.get('[data-testid="modal"]').should('not.exist');
+      cy.get(modalSelector).should('not.exist');
     });
   });
 });

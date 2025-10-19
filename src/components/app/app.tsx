@@ -41,9 +41,9 @@ const App = () => {
     navigate(-1);
   };
 
-  useEffect(() => {
-    dispatch(checkUserAuth());
-  }, [dispatch]);
+  /* useEffect(() => {
+     dispatch(checkUserAuth());
+   }, [dispatch]);*/
 
   useEffect(() => {
     if (ingredients.length === 0 && !ingredientsLoading) {

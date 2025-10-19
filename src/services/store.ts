@@ -20,10 +20,14 @@ const rootReducer = combineReducers({
   userOrders: userOrdersReducer
 });
 
+export { rootReducer };
+
 const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });
+
+(window as any).store = store;
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

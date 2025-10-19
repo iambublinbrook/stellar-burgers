@@ -1,9 +1,14 @@
 import React, { FC, memo } from 'react';
 import styles from './ingredient-details.module.css';
 import { IngredientDetailsUIProps } from './type';
+import { Preloader } from '../preloader';
 
 export const IngredientDetailsUI: FC<IngredientDetailsUIProps> = memo(
   ({ ingredientData }) => {
+    if (!ingredientData) {
+      return <Preloader />;
+    }
+
     const { name, image_large, calories, proteins, fat, carbohydrates } =
       ingredientData;
 

@@ -1,3 +1,5 @@
+import { TEST_URL } from '../support/constants';
+
 describe('Burger Conctructor', () => {
   beforeEach(() => {
     cy.intercept('GET', '**/api/auth/user', {
@@ -9,7 +11,7 @@ describe('Burger Conctructor', () => {
       fixture: 'ingredients.json'
     }).as('getIngredients');
 
-    cy.visit('http://localhost:4000/', {
+    cy.visit(TEST_URL, {
       onBeforeLoad(win) {
       }
     });
